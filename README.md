@@ -17,7 +17,7 @@
 Тестирование - JUnit, Mockito   
 Прочее - Docker
 
-# Наша команда - SmileTeam:
+# Наша команда - SmileTeam(команда 2):
 - [Тиньков Максим](https://github.com/Vasy495)
 - [Гетманский Александр](https://github.com/Apgettman)
 - [Измайлова Наталья](https://github.com/lisichkaNataly)
