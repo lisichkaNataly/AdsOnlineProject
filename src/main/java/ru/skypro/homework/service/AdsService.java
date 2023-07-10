@@ -27,6 +27,7 @@ public class AdsService {
     private final UserService userService;
     private final ImageService imageService;
     private final CommentRepository commentRepository;
+    private final AdsListMapper listMapper;
 
     public Ads getAdById(Integer id) {
         return adsRepository.findById(id)
@@ -41,8 +42,9 @@ public class AdsService {
         return mapper.toDto(adsRepository.save(ad));
     }
 
-    public ResponseWrapperAdsDto getAdsAll() {
+    public ResponseWrapperAdsDto getAdsAll(String titlePart) {
         return null;
+        //подумать
     }
 
     public FullAdsDto getAdInfo(Integer id) {
@@ -65,6 +67,15 @@ public class AdsService {
 
     public Optional<AdsDto> updateAd(Integer id, String username) {
         return null;
+    }
+
+    public byte[] editAdImage(Integer adId, MultipartFile imageFile) throws IOException {
+        Ads ad = getAdById(adId);
+        Image oldImage = ad.getImage();
+        ad.setImage(imageService.uploadImage(imageFile));
+        adsRepository.save(ad);
+        imageService.deleteImage(oldImage);
+        return imageFile.getBytes();
     }
 }
 

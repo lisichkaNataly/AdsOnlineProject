@@ -3,6 +3,7 @@ package ru.skypro.homework.mapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import ru.skypro.homework.dto.CommentDto;
+import ru.skypro.homework.dto.CreateCommentDto;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
@@ -41,6 +42,7 @@ public interface CommentMapper {
         return commentDto;
     }
 
+    Comment toComment(CreateCommentDto createCommentDto);
 
 
 }
