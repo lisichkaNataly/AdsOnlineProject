@@ -11,4 +11,6 @@ import ru.skypro.homework.entity.Ads;
 public interface CommentListMapper {
 
 
+
 }
+

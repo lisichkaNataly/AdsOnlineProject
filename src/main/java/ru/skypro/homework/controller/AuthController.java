@@ -1,5 +1,9 @@
 package ru.skypro.homework.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,21 +26,29 @@ import static ru.skypro.homework.dto.Role.USER;
 public class AuthController {
 
     private final AuthService authService;
-
+    @Operation(summary = "Авторизация пользователя", tags = "Авторизация")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {@Content}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content})
+    })
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto req) {
         if (authService.login(req.getUsername(), req.getPassword())) {
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
+    @Operation(summary = "Регистрация пользователя", tags = "Регистрация")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created", content = {@Content}),
+            @ApiResponse(responseCode = "400", description = "Username already taken", content = {@Content})
+    })
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReq req) {
         Role role = req.getRole() == null ? USER : req.getRole();
         if (authService.register(req, role)) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
