@@ -4,10 +4,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/ads")
 @CrossOrigin(value = "http://localhost:3000")
 public class AdsController {
+
+
     @GetMapping
     public ResponseEntity<?> getAdsAll() {
         return ResponseEntity.ok().build();

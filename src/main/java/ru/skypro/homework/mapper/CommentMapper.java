@@ -2,6 +2,8 @@ package ru.skypro.homework.mapper;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import ru.skypro.homework.dto.CommentDto;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.Image;
@@ -40,6 +42,13 @@ public interface CommentMapper {
 
         return commentDto;
     }
+
+
+    @Mapping(target = "ad", ignore = true)
+    @Mapping(target = "commentId", ignore = true)
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    void updateComment(CommentDto commentDto, @MappingTarget Comment comment);
 
 
 
