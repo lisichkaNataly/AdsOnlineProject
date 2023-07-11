@@ -1,4 +1,4 @@
-# ADS-ONLINE
+# ADS-ONLINE project
 
 ### Мы разработали backend-часть сайта по перепродаже вещей - ADS-ONLINE.
 
