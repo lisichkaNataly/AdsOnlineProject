@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.repository.ImageRepository;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +12,9 @@ import java.util.UUID;
 
 @Service
 public class ImageService {
+
     private final ImageRepository imageRepository;
+
     public ImageService(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }

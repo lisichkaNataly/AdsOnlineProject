@@ -4,16 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.*;
+import ru.skypro.homework.dto.AdsDto;
+import ru.skypro.homework.dto.CreateAdsDto;
+import ru.skypro.homework.dto.FullAdsDto;
+import ru.skypro.homework.dto.ResponseWrapperAdsDto;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
-import ru.skypro.homework.mapper.AdsListMapper;
-import ru.skypro.homework.mapper.AdsMapper;
+import ru.skypro.homework.mapper.*;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
+import ru.skypro.homework.dto.Role;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -23,14 +27,25 @@ import java.util.Optional;
 public class AdsService {
 
     private final AdsRepository adsRepository;
-    private final AdsMapper mapper;
+    private final CommentRepository commentRepository;
     private final UserService userService;
     private final ImageService imageService;
-    private final CommentRepository commentRepository;
+    private final AdsMapper mapper;
+    private final AdsListMapper listMapper;
 
     public Ads getAdById(Integer id) {
         return adsRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Ad with id=" + id + " not found!"));
+                .orElseThrow(() -> new NoSuchElementException("Ad with id=" + id + " not found"));
+    }
+
+
+    public byte[] editAdImage(Integer adId, MultipartFile imageFile) throws IOException {
+        Ads ad = getAdById(adId);
+        Image oldImage = ad.getImage();
+        ad.setImage(imageService.uploadImage(imageFile));
+        adsRepository.save(ad);
+        imageService.deleteImage(oldImage);
+        return imageFile.getBytes();
     }
 
     public AdsDto createAd(CreateAdsDto createAdsDto, MultipartFile imageFile, String username) throws IOException {
@@ -41,12 +56,17 @@ public class AdsService {
         return mapper.toDto(adsRepository.save(ad));
     }
 
+    public ResponseWrapperAdsDto getAdsByTitlePart(String titlePart) {
+        return listMapper.toResponseWrapperAdsDto(adsRepository.findByTitleContainingIgnoreCase(titlePart));
+    }
+
     public ResponseWrapperAdsDto getAdsAll() {
-        return null;
+        List<Ads> ads = adsRepository.findAll();
+        return listMapper.toResponseWrapperAdsDto(ads);
     }
 
     public FullAdsDto getAdInfo(Integer id) {
-        return null;
+        return mapper.toFullAdsDto(getAdById(id));
     }
 
     public boolean deleteAd(Integer id, String username) throws IOException {
@@ -63,8 +83,20 @@ public class AdsService {
         }
     }
 
-    public Optional<AdsDto> updateAd(Integer id, String username) {
-        return null;
+    public Optional<AdsDto> updateAd(Integer id, CreateAdsDto createAdsDto, String username) {
+        User user = userService.getUserByUsername(username);
+        Ads ad = getAdById(id);
+        if (user.equals(ad.getAuthor()) || user.getRole() == Role.ADMIN) {
+            mapper.updateAds(createAdsDto, ad);
+            return Optional.of(mapper.toDto(adsRepository.save(ad)));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public ResponseWrapperAdsDto getAdsMe(String username) {
+        List<Ads> ads = adsRepository.findByAuthor_UserName(username);
+        return listMapper.toResponseWrapperAdsDto(ads);
     }
 }
 

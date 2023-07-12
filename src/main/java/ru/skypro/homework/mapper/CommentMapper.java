@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.skypro.homework.dto.CommentDto;
+import ru.skypro.homework.dto.CreateCommentDto;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
@@ -51,5 +52,5 @@ public interface CommentMapper {
     void updateComment(CommentDto commentDto, @MappingTarget Comment comment);
 
 
-
+    Comment toComment(CreateCommentDto createCommentDto);
 }
