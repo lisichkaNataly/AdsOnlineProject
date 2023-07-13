@@ -53,5 +53,5 @@ public interface CommentMapper {
     void updateComment(CommentDto commentDto, @MappingTarget Comment comment);
 
 
-
+    Comment toComment(CreateCommentDto createCommentDto);
 }

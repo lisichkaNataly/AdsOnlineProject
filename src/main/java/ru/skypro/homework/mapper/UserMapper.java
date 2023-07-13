@@ -4,6 +4,7 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import ru.skypro.homework.dto.NewPasswordDto;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
@@ -37,5 +38,8 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     void updateUser(UserDto userDto, @MappingTarget User user);
+
+    @Mapping(source = "newPasswordDto.newPassword", target = "password")
+    void updateUserPassword(NewPasswordDto newPasswordDto, @MappingTarget User user);
 }
 

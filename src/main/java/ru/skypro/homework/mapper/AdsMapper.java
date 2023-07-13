@@ -6,6 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateAdsDto;
+import ru.skypro.homework.dto.FullAdsDto;
 import ru.skypro.homework.entity.Ads;
 
 
@@ -21,5 +22,5 @@ public interface AdsMapper {
 
     void updateAds(CreateAdsDto createAdsDto, @MappingTarget Ads ad);
 
-
+    FullAdsDto toFullAdsDto(Ads ad);
 }
