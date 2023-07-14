@@ -3,8 +3,10 @@ package ru.skypro.homework.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.NewPasswordDto;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
@@ -21,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final ImageService imageService;
+    private final PasswordEncoder encoder;
 
     public UserDto getUserInfo(String username) {
         return userMapper.toDto(getUserByUsername(username));
@@ -44,6 +47,18 @@ public class UserService {
         user.setImage(imageService.uploadImage(imageFile));
         userRepository.save(user);
         imageService.deleteImage(oldImage);
+    }
+
+    public boolean editUserPassword(NewPasswordDto newPasswordDto, String username) {
+        User user = getUserByUsername(username);
+        if (encoder.matches(newPasswordDto.getCurrentPassword(), user.getPassword())) {
+            newPasswordDto.setNewPassword(encoder.encode(newPasswordDto.getNewPassword()));
+            userMapper.updateUserPassword(newPasswordDto, user);
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
