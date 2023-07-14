@@ -15,6 +15,7 @@ import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -61,6 +62,19 @@ public class CommentService {
     public Comment getCommentById(Integer id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Comment with id=" + id + " not found"));
+    }
+
+    public Optional<CommentDto> updateComment(Integer commentId, CommentDto commentDto, String username) {
+
+        User user = userService.getUserByUsername(username);
+        Comment comment = getCommentById(commentId);
+
+        if (user.equals(comment.getAuthor()) || user.getRole() == Role.ADMIN) {
+            commentMapper.updateComment(commentDto, comment);
+            return Optional.of(commentMapper.toDto(commentRepository.save(comment)));
+        } else {
+            return Optional.empty();
+        }
     }
 
 

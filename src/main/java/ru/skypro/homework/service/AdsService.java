@@ -14,6 +14,7 @@ import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -34,6 +35,11 @@ public class AdsService {
                 .orElseThrow(() -> new NoSuchElementException("Ad with id=" + id + " not found!"));
     }
 
+    public ResponseWrapperAdsDto getAdsMe(String username) {
+        List<Ads> ads = adsRepository.findByAuthor_UserName(username);
+        return listMapper.toResponseWrapperAdsDto(ads);
+    }
+
     public AdsDto createAd(CreateAdsDto createAdsDto, MultipartFile imageFile, String username) throws IOException {
         Ads ad = mapper.toAds(createAdsDto);
         User author = userService.getUserByUsername(username);
@@ -42,14 +48,15 @@ public class AdsService {
         return mapper.toDto(adsRepository.save(ad));
     }
 
-    public ResponseWrapperAdsDto getAdsAll(String titlePart) {
-        return null;
-        //подумать
+    public ResponseWrapperAdsDto getAdsAll() {
+        List<Ads> ads = adsRepository.findAll();
+        return listMapper.toResponseWrapperAdsDto(ads);
     }
 
     public FullAdsDto getAdInfo(Integer id) {
-        return null;
+        return mapper.toFullAdsDto(getAdById(id));
     }
+
 
     public boolean deleteAd(Integer id, String username) throws IOException {
         User user = userService.getUserByUsername(username);
@@ -65,8 +72,15 @@ public class AdsService {
         }
     }
 
-    public Optional<AdsDto> updateAd(Integer id, String username) {
-        return null;
+    public Optional<AdsDto> updateAd(Integer id, CreateAdsDto createAdsDto, String username) {
+        User user = userService.getUserByUsername(username);
+        Ads ad = getAdById(id);
+        if (user.equals(ad.getAuthor()) || user.getRole() == Role.ADMIN) {
+            mapper.updateAds(createAdsDto, ad);
+            return Optional.of(mapper.toDto(adsRepository.save(ad)));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public byte[] editAdImage(Integer adId, MultipartFile imageFile) throws IOException {
