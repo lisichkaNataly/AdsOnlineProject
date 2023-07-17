@@ -30,14 +30,12 @@ public interface UserMapper {
         userDto.setLastName(user.getLastName());
         userDto.setPhone(user.getPhone());
         userDto.setEmail(user.getEmail());
-
         Image image = user.getImage();
         if (image != null) {
             userDto.setImage("/image/" + image.getId());
         } else {
             userDto.setImage(null);
         }
-
         return userDto;
     }
 

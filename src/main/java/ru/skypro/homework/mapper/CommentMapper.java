@@ -32,21 +32,16 @@ public interface CommentMapper {
         CommentDto commentDto = new CommentDto();
         commentDto.setPk(comment.getCommentId());
         commentDto.setText(comment.getText());
-
         commentDto.setCreatedAt(Objects.requireNonNullElse(comment.getCreatedAt(), 0L));
-
         User author = comment.getAuthor();
         if (author != null) {
-
             commentDto.setAuthor(comment.getAuthor().getId());
             commentDto.setAuthorFirstName(comment.getAuthor().getFirstName());
-
             Image image = author.getImage();
             if (image != null) {
                 commentDto.setAuthorImage("/image/" + comment.getAuthor().getImage().getId());
             }
         }
-
         return commentDto;
     }
 
@@ -57,7 +52,4 @@ public interface CommentMapper {
     @Mapping(target = "author", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     void updateComment(CommentDto commentDto, @MappingTarget Comment comment);
-
-
-
 }

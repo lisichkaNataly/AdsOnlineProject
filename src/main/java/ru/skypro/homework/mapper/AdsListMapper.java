@@ -5,9 +5,7 @@ import org.mapstruct.Mapper;
 import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.ResponseWrapperAdsDto;
 import ru.skypro.homework.entity.Ads;
-
 import java.util.List;
-
 
 @Mapper(componentModel = "spring",
         uses = {AdsMapper.class},
