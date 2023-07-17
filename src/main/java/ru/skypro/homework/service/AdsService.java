@@ -91,5 +91,9 @@ public class AdsService {
         imageService.deleteImage(oldImage);
         return imageFile.getBytes();
     }
+
+    public ResponseWrapperAdsDto getAdsByTitlePart(String titlePart) {
+        return listMapper.toResponseWrapperAdsDto(adsRepository.findByTitleContainingIgnoreCase(titlePart));
+    }
 }
 
