@@ -17,6 +17,12 @@ import java.util.Objects;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface CommentMapper {
 
+    /**
+     * Маппинг комментария в объект CommentDto.
+     * <p>
+     * Аватар пользователя преобразуется из пути в файловой системе в URL-ссылку на изображение.
+     * Если он равен null, в commentDto.authorImage также запишется null.
+     */
     default CommentDto toDto(Comment comment) {
 
         if (comment == null) {
@@ -53,5 +59,5 @@ public interface CommentMapper {
     void updateComment(CommentDto commentDto, @MappingTarget Comment comment);
 
 
-    Comment toComment(CreateCommentDto createCommentDto);
+
 }

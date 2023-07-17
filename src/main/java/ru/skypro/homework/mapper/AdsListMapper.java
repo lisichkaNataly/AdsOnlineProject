@@ -14,8 +14,15 @@ import java.util.List;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface AdsListMapper {
 
+    /**
+     * Маппинг списка объявлений в список объектов AdsDto.
+     */
     List<AdsDto> toDto(List <Ads> adsList);
 
+    /**
+     * Маппинг списка объявлений в объект ResponseWrapperAdsDto,
+     * содержащий сам список и поле с количеством записей в нём.
+     */
     default ResponseWrapperAdsDto toResponseWrapperAdsDto(List<Ads> adsList) {
         ResponseWrapperAdsDto dto = new ResponseWrapperAdsDto();
         dto.setCount(adsList.size());

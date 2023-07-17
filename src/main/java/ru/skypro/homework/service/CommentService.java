@@ -23,7 +23,6 @@ import java.util.Optional;
 public class CommentService {
     private final CommentListMapper commentListMapper;
     private final AdsService adsService;
-    private final CreateCommentDto createCommentDto;
     private final UserService userService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;

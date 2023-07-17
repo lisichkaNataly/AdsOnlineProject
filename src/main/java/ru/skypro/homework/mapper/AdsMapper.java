@@ -22,5 +22,10 @@ public interface AdsMapper {
 
     void updateAds(CreateAdsDto createAdsDto, @MappingTarget Ads ad);
 
+    @Mapping(source = "author.firstName", target = "authorFirstName")
+    @Mapping(source = "author.lastName", target = "authorLastName")
+    @Mapping(target = "image", expression = "java(\"/image/\" + ad.getImage().getId())")
+    @Mapping(source = "author.phone", target = "phone")
+    @Mapping(source = "author.email", target = "email")
     FullAdsDto toFullAdsDto(Ads ad);
 }
