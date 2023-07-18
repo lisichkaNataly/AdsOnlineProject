@@ -14,14 +14,30 @@ import ru.skypro.homework.entity.Ads;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface AdsMapper {
 
+    /**
+     * Создание объявления из объекта createAdsDto.
+     */
     Ads toAds(CreateAdsDto createAdsDto);
 
+    /**
+     * Маппинг объявления в объект AdsDto.
+     *
+     * @throws NullPointerException если поле ad.image == null.
+     */
     @Mapping(source = "author.id", target = "author")
     @Mapping(target = "image", expression = "java(\"/image/\" + ad.getImage().getId())")
     AdsDto toDto(Ads ad);
 
+    /**
+     * Обновление полей объявления данными из объекта CreateAdsDto.
+     */
     void updateAds(CreateAdsDto createAdsDto, @MappingTarget Ads ad);
 
+    /**
+     * Маппинг объявления в объект FullAdsDto.
+     *
+     * @throws NullPointerException если поле ad.image == null.
+     */
     @Mapping(source = "author.firstName", target = "authorFirstName")
     @Mapping(source = "author.lastName", target = "authorLastName")
     @Mapping(target = "image", expression = "java(\"/image/\" + ad.getImage().getId())")

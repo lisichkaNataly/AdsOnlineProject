@@ -12,6 +12,10 @@ import ru.skypro.homework.entity.Ads;
         imports = Ads.class)
 public interface CommentListMapper {
 
+    /**
+     * Маппинг списка комментариев объявления в объект ResponseWrapperCommentDto,
+     * содержащий сам список и поле с количеством записей в нём.
+     */
     @Mapping(expression = "java(ad.getCommentsList().size())", target = "count")
     @Mapping(source = "commentsList", target = "results")
     ResponseWrapperCommentDto toResponseWrapperCommentDto(Ads ad);

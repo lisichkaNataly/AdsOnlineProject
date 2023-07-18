@@ -45,8 +45,14 @@ public interface CommentMapper {
         return commentDto;
     }
 
+    /**
+     * Создание комментария с единственным заполненным полем text из объекта CreateCommentDto.
+     */
     Comment toComment(CreateCommentDto createCommentDto);
 
+    /**
+     * Обновление поля text в комментарии данными из объекта CommentDto.
+     */
     @Mapping(target = "ad", ignore = true)
     @Mapping(target = "commentId", ignore = true)
     @Mapping(target = "author", ignore = true)
