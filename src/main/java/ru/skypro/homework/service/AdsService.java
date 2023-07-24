@@ -30,16 +30,34 @@ public class AdsService {
     private final CommentRepository commentRepository;
     private final AdsListMapper listMapper;
 
+    /**
+     * Получение из базы данных объявления с указанным id.
+     */
+
     public Ads getAdById(Integer id) {
         return adsRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Ad with id=" + id + " not found!"));
     }
 
+
+    /**
+     * Получение списка объявлений конкретного пользователя.
+     *
+     * @param username имя пользователя из аутентификации.
+     * @return Список объявлений в формате ResponseWrapperAdsDto.
+     */
     public ResponseWrapperAdsDto getAdsMe(String username) {
         List<Ads> ads = adsRepository.findByAuthor_UserName(username);
         return listMapper.toResponseWrapperAdsDto(ads);
     }
 
+    /**
+     * Создание нового объявления.
+     *
+     * @param createAdsDto dto с данными для создания объявления.
+     * @param imageFile    картинка объявления.
+     * @param username     имя пользователя из аутентификации.
+     */
     public AdsDto createAd(CreateAdsDto createAdsDto, MultipartFile imageFile, String username) throws IOException {
         Ads ad = mapper.toAds(createAdsDto);
         User author = userService.getUserByUsername(username);
@@ -48,16 +66,30 @@ public class AdsService {
         return mapper.toDto(adsRepository.save(ad));
     }
 
+    /**
+     * Получение списка всех объявлений.
+     *
+     * @return Список объявлений в формате ResponseWrapperAdsDto.
+     */
     public ResponseWrapperAdsDto getAdsAll() {
         List<Ads> ads = adsRepository.findAll();
         return listMapper.toResponseWrapperAdsDto(ads);
     }
 
+    /**
+     * Получение расширенной информации об объявлении.
+     */
     public FullAdsDto getAdInfo(Integer id) {
         return mapper.toFullAdsDto(getAdById(id));
     }
 
-
+    /**
+     * Удаление объявления из базы данных.
+     *
+     * @param id       id объявления.
+     * @param username имя пользователя из аутентификации.
+     * @return true - если удаление прошло успешно, false - если удаление было запрещено из-за недостатка прав.
+     */
     public boolean deleteAd(Integer id, String username) throws IOException {
         User user = userService.getUserByUsername(username);
         Ads ad = getAdById(id);
@@ -72,6 +104,15 @@ public class AdsService {
         }
     }
 
+    /**
+     * Обновление объявления в базе данных.
+     *
+     * @param id           id объявления.
+     * @param createAdsDto dto с данными для обновления.
+     * @param username     имя пользователя из аутентификации.
+     * @return Обновлённое объявление в формате AdsDto, если операция прошла успешно,
+     * или пустой Optional, если обновление было запрещено из-за недостатка прав.
+     */
     public Optional<AdsDto> updateAd(Integer id, CreateAdsDto createAdsDto, String username) {
         User user = userService.getUserByUsername(username);
         Ads ad = getAdById(id);
@@ -83,6 +124,13 @@ public class AdsService {
         }
     }
 
+    /**
+     * Изменение изображения объявления.
+     *
+     * @param adId      id объявления.
+     * @param imageFile новое изображение.
+     * @return новое изображение в формате byte[].
+     */
     public byte[] editAdImage(Integer adId, MultipartFile imageFile) throws IOException {
         Ads ad = getAdById(adId);
         Image oldImage = ad.getImage();
@@ -92,6 +140,12 @@ public class AdsService {
         return imageFile.getBytes();
     }
 
+    /**
+     * Поиск объявления по части названия.
+     *
+     * @param titlePart часть названия для поиска.
+     * @return Список объявлений в формате ResponseWrapperAdsDto.
+     */
     public ResponseWrapperAdsDto getAdsByTitlePart(String titlePart) {
         return listMapper.toResponseWrapperAdsDto(adsRepository.findByTitleContainingIgnoreCase(titlePart));
     }
