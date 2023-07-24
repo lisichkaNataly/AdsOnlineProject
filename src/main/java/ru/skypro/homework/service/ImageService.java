@@ -22,6 +22,12 @@ public class ImageService {
     @Value("${path.to.image.folder}")
     private String imageDir;
 
+    /**
+     * Загрузка изображения в файловую систему.
+     *
+     * @param imageFile файл изображения.
+     * @return объект Image с данными изображения, сохранённый в базе данных.
+     */
     public Image uploadImage(MultipartFile imageFile) throws IOException {
 
         Image image = new Image();
@@ -37,6 +43,9 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
+    /**
+     * Удаление изображения из файловой системы и базы данных.
+     */
     public void deleteImage(Image image) throws IOException {
 
         if (image != null) {
