@@ -8,10 +8,9 @@ import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
-import ru.skypro.homework.mapper.AdsListMapper;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
-import ru.skypro.homework.repository.CommentRepository;
+import ru.skypro.homework.repository.AdsCommentRepository;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,16 +18,9 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-@Slf4j
-@AllArgsConstructor
-public class AdsService {
+public interface AdsService {
 
-    private final AdsRepository adsRepository;
-    private final AdsMapper mapper;
-    private final UserService userService;
-    private final ImageService imageService;
-    private final CommentRepository commentRepository;
-    private final AdsListMapper listMapper;
+    Ads getAdsById(Long adId);
 
     /**
      * Получение из базы данных объявления с указанным id.
@@ -38,6 +30,7 @@ public class AdsService {
         return adsRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Ad with id=" + id + " not found!"));
     }
+
 
 
     /**
@@ -95,7 +88,7 @@ public class AdsService {
         Ads ad = getAdById(id);
         if (user.equals(ad.getAuthor()) || user.getRole() == Role.ADMIN) {
             Image image = ad.getImage();
-            commentRepository.deleteAll(ad.getCommentsList());
+            adsCommentRepository.deleteAll(ad.getCommentsList());
             adsRepository.delete(ad);
             imageService.deleteImage(image);
             return true;

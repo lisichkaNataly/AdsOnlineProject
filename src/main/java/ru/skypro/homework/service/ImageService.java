@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 @Service
-public class ImageService {
+public interface ImageService {
 
     private final ImageRepository imageRepository;
 

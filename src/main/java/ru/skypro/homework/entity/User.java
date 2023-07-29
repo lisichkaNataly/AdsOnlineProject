@@ -1,38 +1,35 @@
 package ru.skypro.homework.entity;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import ru.skypro.homework.dto.Role;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.Instant;
 
-@Data
-@ToString
+
 @Entity
-@Table(name = "user_ads")
+@Table(name = "users")
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
+@Getter
+@Setter
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String email;
-    private String userName;
-    private String password;
+    private long id;
     private String firstName;
     private String lastName;
+    private String email;
+    private String password;
     private String phone;
+    private String city;
+    private Instant regDate;
 
-    @OneToOne
-    @JoinColumn(name = "image")
+    @OneToOne()
     private Image image;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany(mappedBy = "author")
-    private List<Ads> adsList;
-
-    @OneToMany(mappedBy = "author")
-    private List<Comment> commentsList;
 }

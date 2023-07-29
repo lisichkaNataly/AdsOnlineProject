@@ -16,9 +16,7 @@ import ru.skypro.homework.repository.UserRepository;
 import java.io.IOException;
 
 @Service
-@Slf4j
-@AllArgsConstructor
-public class UserService {
+public interface UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
