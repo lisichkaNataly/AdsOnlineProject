@@ -3,8 +3,6 @@ package ru.skypro.homework.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
-
 
 @Entity
 @NoArgsConstructor
@@ -28,5 +26,4 @@ public class Ads {
     @OneToOne()
     @JoinColumn()
     private Image image;
-
 }

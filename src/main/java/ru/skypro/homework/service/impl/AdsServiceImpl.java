@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdsCommentDto;
 import ru.skypro.homework.dto.CreateAdsDto;
 import ru.skypro.homework.entity.Ads;
-import ru.skypro.homework.entity.Comment;
+import ru.skypro.homework.entity.AdsComment;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.mapper.AdsCommentMapper;
 import ru.skypro.homework.repository.AdsRepository;
@@ -69,22 +69,22 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public Comment getComment(long adPk, long id) {
+    public AdsComment getComment(long adPk, long id) {
         return null;
     }
 
     @Override
-    public Collection<Comment> getComments(long adPk) {
+    public Collection<AdsComment> getComments(long adPk) {
         return null;
     }
 
     @Override
-    public Comment addComments(long adPk, AdsCommentDto adsCommentDto, Authentication authentication) {
+    public AdsComment addComments(long adPk, AdsCommentDto adsCommentDto, Authentication authentication) {
         return null;
     }
 
     @Override
-    public Comment deleteComment(long adPk, long id, Authentication authentication) {
+    public AdsComment deleteComment(long adPk, long id, Authentication authentication) {
         return null;
     }
 
@@ -94,7 +94,7 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public Comment updateComments(long adPk, long id, Comment comment, Authentication authentication) {
+    public AdsComment updateComments(long adPk, long id, AdsComment comment, Authentication authentication) {
         return null;
     }
 

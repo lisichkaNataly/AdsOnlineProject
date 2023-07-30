@@ -1,16 +1,20 @@
 package ru.skypro.homework.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Repository;
-import ru.skypro.homework.entity.Comment;
+import ru.skypro.homework.entity.AdsComment;
 
 import java.util.Collection;
 import java.util.Optional;
+
+
 @Repository
-public interface AdsCommentRepository extends JpaRepository<Comment, Long> {
- Optional<Comment> findByIdAndAdId(long id, long adsId);
+public interface AdsCommentRepository extends JpaRepository<AdsComment, Long> {
 
- Collection<Comment> findAllByAdId(long adId);
+ Optional<AdsComment> findByIdAndAdId(long id, long adsId);
 
- void deleteCommentsByAdId(long id);
- }
+ Collection<AdsComment> findAllByAdId(long adId);
+
+ void deleteAdsCommentsByAdId(long id);
+}

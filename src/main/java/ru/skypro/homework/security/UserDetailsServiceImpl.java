@@ -1,27 +1,36 @@
 package ru.skypro.homework.security;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.skypro.homework.entity.User;
 import ru.skypro.homework.repository.UserRepository;
 
-@Slf4j
-@AllArgsConstructor
+import javax.transaction.Transactional;
+
+@Transactional
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    @Autowired
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = getUserByUsername(username);
+        return new MyUserDetails(user);
+    }
 
-        log.debug("Trying to find user " + username);
-
-        return userRepository.findByUserName(username)
-                .map(UserDetailsImpl::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
+    private User getUserByUsername(String username) {
+        return userRepository.findByEmailIgnoreCase(username).orElseThrow(() ->
+                new UsernameNotFoundException(String.format("Пользователь с email: \"%s\" не найден", username)));
     }
 }
