@@ -1,47 +1,46 @@
 package ru.skypro.homework.mapper;
 
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateAdsDto;
 import ru.skypro.homework.dto.FullAdsDto;
 import ru.skypro.homework.entity.Ads;
+import ru.skypro.homework.entity.Image;
 
 
-@Mapper(componentModel = "spring",
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface AdsMapper {
+@Mapper(componentModel = "spring")
+public interface AdsMapper extends WebMapper<AdsDto, Ads> {
 
-    /**
-     * Создание объявления из объекта createAdsDto.
-     */
-    Ads toAds(CreateAdsDto createAdsDto);
+    String ADS_IMAGES = "/ads/image/";
 
-    /**
-     * Маппинг объявления в объект AdsDto.
-     *
-     * @throws NullPointerException если поле ad.image == null.
-     */
-    @Mapping(source = "author.id", target = "author")
-    @Mapping(target = "image", expression = "java(\"/image/\" + ad.getImage().getId())")
-    AdsDto toDto(Ads ad);
+    @Mapping(target = "id", source = "pk")
+    @Mapping(target = "author.id", source = "author")
+    @Mapping(target = "image", ignore = true)
+    Ads toEntity(AdsDto dto);
 
-    /**
-     * Обновление полей объявления данными из объекта CreateAdsDto.
-     */
-    void updateAds(CreateAdsDto createAdsDto, @MappingTarget Ads ad);
+    @Mapping(target = "pk", source = "id")
+    @Mapping(target = "author", source = "author.id")
+    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
+    AdsDto toDto(Ads entity);
 
-    /**
-     * Маппинг объявления в объект FullAdsDto.
-     *
-     * @throws NullPointerException если поле ad.image == null.
-     */
-    @Mapping(source = "author.firstName", target = "authorFirstName")
-    @Mapping(source = "author.lastName", target = "authorLastName")
-    @Mapping(target = "image", expression = "java(\"/image/\" + ad.getImage().getId())")
-    @Mapping(source = "author.phone", target = "phone")
-    @Mapping(source = "author.email", target = "email")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "image", ignore = true)
+    Ads toEntity(CreateAdsDto dto);
+
+    @Mapping(target = "authorFirstName", source = "author.firstName")
+    @Mapping(target = "authorLastName", source = "author.lastName")
+    @Mapping(target = "phone", source = "author.phone")
+    @Mapping(target = "email", source = "author.email")
+    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
+    @Mapping(target = "pk", source = "id")
     FullAdsDto toFullAdsDto(Ads ad);
+
+    @Named("imageMapping")
+    default String imageMapping(Image image) {
+        if (image == null) {
+            return null;
+        }
+        return ADS_IMAGES + image.getId();
+    }
 }

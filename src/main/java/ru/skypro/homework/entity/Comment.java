@@ -1,25 +1,29 @@
 package ru.skypro.homework.entity;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.Instant;
 
-@Data
 @Entity
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
+@Getter
+@Setter
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer commentId;
+    private long id;
+    private Instant createdAt;
+    private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "ad_id")
-    private Ads ad;
-
-    @ManyToOne
-    @JoinColumn(name = "author")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private User author;
 
-    private Long createdAt;
-    private String text;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pk_ads")
+    private Ads ad;
 
 }

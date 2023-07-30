@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.CommentDto;
-import ru.skypro.homework.dto.CreateCommentDto;
-import ru.skypro.homework.dto.ResponseWrapperCommentDto;
-import ru.skypro.homework.service.CommentService;
+import ru.skypro.homework.dto.AdsCommentDto;
 
 @RestController
 @RequestMapping("/ads")
@@ -42,14 +39,14 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CommentDto.class)
+                            schema = @Schema(implementation = AdsCommentDto.class)
                     )}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content})
     })
     @PostMapping("/{id}/comments")
-    public ResponseEntity<CommentDto> addComment(@PathVariable Integer id,
-                                                 @RequestBody CreateCommentDto createCommentDto,
-                                                 Authentication authentication) {
+    public ResponseEntity<AdsCommentDto> addComment(@PathVariable Integer id,
+                                                    @RequestBody CreateCommentDto createCommentDto,
+                                                    Authentication authentication) {
         return ResponseEntity.ok(commentService.addComment(id, createCommentDto, authentication.getName()));
     }
 
@@ -74,17 +71,17 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CommentDto.class)
+                            schema = @Schema(implementation = AdsCommentDto.class)
                     )}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content}),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = {@Content})
     })
     @PatchMapping("/{adId}/comments/{commentId}")
-    public ResponseEntity<CommentDto> updateComment(@PathVariable Integer adId,
-                                                    @PathVariable Integer commentId,
-                                                    @RequestBody CommentDto commentDto,
-                                                    Authentication authentication) {
-        return commentService.updateComment(commentId, commentDto, authentication.getName())
+    public ResponseEntity<AdsCommentDto> updateComment(@PathVariable Integer adId,
+                                                       @PathVariable Integer commentId,
+                                                       @RequestBody AdsCommentDto adsCommentDto,
+                                                       Authentication authentication) {
+        return commentService.updateComment(commentId, adsCommentDto, authentication.getName())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
     }

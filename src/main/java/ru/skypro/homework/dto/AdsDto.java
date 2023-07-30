@@ -1,6 +1,9 @@
 package ru.skypro.homework.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class AdsDto {
@@ -8,5 +11,9 @@ public class AdsDto {
     private String image;
     private int pk;
     private int price;
+    @NotBlank
     private String title;
+    @NotBlank
+    @JsonIgnore
+    private String description;
 }
