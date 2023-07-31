@@ -1,4 +1,5 @@
 package ru.skypro.homework.entity;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,5 +26,4 @@ public class AdsComment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pk_ads")
     private Ads ad;
-
 }

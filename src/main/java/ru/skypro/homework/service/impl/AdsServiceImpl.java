@@ -11,10 +11,10 @@ import ru.skypro.homework.dto.CreateAdsDto;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.AdsComment;
 import ru.skypro.homework.entity.User;
-import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.mapper.AdsCommentMapper;
-import ru.skypro.homework.repository.AdsRepository;
+import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsCommentRepository;
+import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.security.SecurityUtils;
 import ru.skypro.homework.service.AdsService;
 import ru.skypro.homework.service.ImageService;
@@ -29,10 +29,11 @@ import static ru.skypro.homework.security.SecurityUtils.checkPermissionToAdsComm
 @Transactional
 @Service
 public class AdsServiceImpl implements AdsService {
+
     private final UserService userService;
     private final ImageService imageService;
     private final AdsRepository adsRepository;
-    private final AdsCommentRepository AdsCommentRepository;
+    private final AdsCommentRepository adsCommentRepository;
     private final AdsMapper adsMapper;
     private final AdsCommentMapper adsCommentMapper;
 
