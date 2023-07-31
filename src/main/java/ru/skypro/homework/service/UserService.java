@@ -14,7 +14,4 @@ public interface UserService {
     void updatePassword(String newPassword, String currentPassword, Authentication authentication);
     String updateUserImage(MultipartFile image, Authentication authentication);
     User updateRole(long id, Role role);
-
-
 }
-

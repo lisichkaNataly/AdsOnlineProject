@@ -11,18 +11,17 @@ import java.util.Collection;
 
 
 public interface AdsService {
-
     Collection<Ads> getAllAds();
     Collection<Ads> getAdsMe(Authentication authentication);
     Ads getAdsById(Long adId);
     Ads addAds(CreateAdsDto createAdsDto, MultipartFile imageFiles, Authentication authentication);
     Ads removeAdsById(Long adId, Authentication authentication);
-    Collection<AdsComment> getComments(long adPk);
-    Ads updateAds(Long adId, CreateAdsDto createAdsDto, Authentication authentication);
-    AdsComment updateComments(long adPk, long id, AdsComment comment, Authentication authentication);
-    void updateAdsImage(long id, MultipartFile image, Authentication authentication);
-    AdsComment addAdsComments(long adPk, AdsCommentDto adsCommentDto, Authentication authentication);
     AdsComment getAdsComment(long adPk, long id);
+    Collection<AdsComment> getComments(long adPk);
+    AdsComment addAdsComments(long adPk, AdsCommentDto adsCommentDto, Authentication authentication);
     AdsComment deleteAdsComment(long adPk, long id, Authentication authentication);
+    Ads updateAds(Long adId, CreateAdsDto createAdsDto, Authentication authentication);
+    AdsComment updateComments(long adPk, long id, AdsComment adsComment, Authentication authentication);
+    void updateAdsImage(long id, MultipartFile image, Authentication authentication);
 }
 
