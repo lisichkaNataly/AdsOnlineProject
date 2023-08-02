@@ -4,14 +4,14 @@ import lombok.Data;
 
 @Data
 public class FullAdsDto {
-    private int pk;
-    private String authorFirstName;
-    private String authorLastName;
-    private String description;
-    private String email;
+
     private String image;
+    private String authorLastName;
+    private String authorFirstName;
     private String phone;
     private int price;
+    private String description;
+    private int pk;
     private String title;
-
+    private String email;
 }

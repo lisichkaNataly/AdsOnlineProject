@@ -47,8 +47,3 @@ create table users
     role       varchar(255),
     image_id   bigint
 );
-
-
-
-
-

@@ -6,7 +6,6 @@ import ru.skypro.homework.dto.Role;
 import javax.persistence.*;
 import java.time.Instant;
 
-
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
