@@ -1,10 +1,6 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -36,13 +32,6 @@ public class UserController {
     private final ImageService imageService;
 
     @Operation(summary = "Обновить информацию об авторизованном пользователе", description = "updateUser", tags={ "Пользователи" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDto.class))}),
-            @ApiResponse(responseCode = "401",
-                    description = "Unauthorized")
-    })
     @PatchMapping("/me")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, Authentication authentication) {
         printLogInfo("updateUser", "patch", "/me");
@@ -50,17 +39,6 @@ public class UserController {
     }
 
     @Operation(summary = "Обновление пароля", description = "setPassword", tags={ "Пользователи" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "OK",
-                    content = @Content),
-            @ApiResponse(responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content),
-            @ApiResponse(responseCode = "403",
-                    description = "Forbidden",
-                    content = @Content)
-    })
     @PostMapping("/set_password")
     public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto, Authentication authentication) {
         userService.updatePassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword(), authentication);
@@ -69,12 +47,6 @@ public class UserController {
     }
 
     @Operation(summary = "Обновить аватар авторизованного пользователя", description = "updateUserImage", tags={ "Пользователи" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "OK"),
-            @ApiResponse(responseCode = "401",
-                    description = "Unauthorized")
-    })
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> updateUserImage(@RequestBody MultipartFile image, Authentication authentication) {
         printLogInfo("updateUserImage", "patch", "/me/image");
@@ -90,14 +62,6 @@ public class UserController {
     }
 
     @Operation(summary = "Получить информацию об авторизованном пользователе", description = "Get info about me", tags={ "Пользователи" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDto.class))}),
-            @ApiResponse(responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content),
-    })
     @GetMapping("/me")
     public UserDto getUser(Authentication authentication) {
         printLogInfo("getUser", "get", "/me");

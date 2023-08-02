@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
+/**
+ * Message containing information about the error
+ */
 @Getter
 public class ErrorMessage {
 

@@ -1,9 +1,6 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,7 +15,6 @@ import ru.skypro.homework.dto.LoginReqDto;
 import ru.skypro.homework.dto.RegisterReqDto;
 import ru.skypro.homework.service.AuthService;
 
-
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
@@ -29,10 +25,6 @@ public class AuthController {
     private final AuthService authService;
 
     @Operation(summary = "Авторизация пользователя", description = "login", tags={ "Авторизация" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {@Content}),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content})
-    })
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto req) {
         printLogInfo("login", "post", "/login");
@@ -44,10 +36,6 @@ public class AuthController {
     }
 
     @Operation(summary = "Регистрация пользователя", description = "register", tags={ "Регистрация" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Created", content = {@Content}),
-            @ApiResponse(responseCode = "400", description = "Username already taken", content = {@Content})
-    })
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReqDto req) {
         printLogInfo("register", "post", "/register");
