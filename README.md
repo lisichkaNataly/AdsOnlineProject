@@ -5,7 +5,7 @@
 
 
 ## Командная работа. 
-## Команда SmileTeam
+## Команда SmileTeam.
 </div>
 
 <div id="badges" align="center">
