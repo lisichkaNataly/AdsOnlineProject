@@ -35,6 +35,11 @@ ___
 
 - [ТЗ на разработку](https://skyengpublic.notion.site/64113e0a2641475c9ad9bea93144afff)
 
+
+## Исходные данные:
+
+- [Данные](https://github.com/skypro-backend/example-for-graduate-work)
+
 ___
 ## Команда разработчиков:
 - [Тиньков Максим](https://github.com/Vasy495)
